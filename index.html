@@ -1,77 +1,299 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-<title>Welcome Loading 98%</title>
- <link rel="icon" type="image/x-icon" href="/media/thtamzid40/Project/College/final/favicon3.ico">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=1024, initial-scale=1, maximum-scale=1, user-scalable=no">
+<title>Welcome | Loading 0%</title>
+<link rel="icon" type="image/x-icon" sizes="32x32" href="/favicon.ico">
 
+<style>
+  * { box-sizing: border-box; margin:0; padding:0; }
+  body {
+    font-family:'Courier New', monospace;
+    color:#0f0;
+    overflow:hidden;
+    background-color:#000;
+    position:relative;
+  }
 
-<head>
+  /* ---------- Matrix Canvas ---------- */
+  #matrix-bg {
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    z-index:-3;
+    opacity:0.05;
+  }
+
+  /* ---------- Loader ---------- */
+  #loader {
+    position:fixed;
+    top:0; left:0;
+    width:100%;
+    height:100%;
+    background:#000;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    z-index:1000;
+    transition: opacity 0.5s ease;
+  }
+  #loader h1 {
+    color:#00ff40;
+    font-size:2em;
+    margin-bottom:15px;
+  }
+  .progress-bar {
+    width:60%;
+    height:15px;
+    border:2px solid #0f0;
+    border-radius:10px;
+    overflow:hidden;
+  }
+  .progress-fill {
+    width:0%;
+    height:100%;
+    background:#00ff40;
+    transition: width 0.05s linear;
+  }
+
+  /* ---------- Main Content ---------- */
+  #content {
+    opacity:0;
+    transition:opacity 1s ease;
+    padding-bottom:50px;
+  }
+  .section {
+    margin:30px auto;
+    max-width:800px;
+    background-color: rgba(255,255,255,0.05);
+    padding:15px;
+    border-radius:8px;
+    box-shadow:0 0 10px rgba(0,255,0,0.3);
+  }
+  header { background-color:tomato; color:#fff; padding:10px; border-radius:0 0 10px 10px; font-size:1.2em;}
+  main { padding:20px; }
+  h1,h2 { color:#00ff23; }
+  a { color:#00eaff; text-decoration:none; font-weight:bold; }
+  a:hover { color:#ff5; text-decoration:underline; }
+  img { margin:10px; border-radius:10px; }
+  footer { background-color:#111; color:#aaa; padding:15px; font-size:0.9em; border-top:2px solid #00ff40; }
+  mark { background-color:#ff6347; color:white; padding:2px 4px; border-radius:4px; }
+  ul { list-style:none; padding:0; }
+  li { padding:5px 0; }
+
+  /* ---------- Screen Blink ---------- */
+  @keyframes blink {
+    0%, 49%, 100% { opacity:4; }
+    50%, 99% { opacity:2; }
+  }
+
+  /* ---------- Fullscreen Matrix Overlay for link click ---------- */
+  #link-matrix {
+    position:fixed;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+    background:black;
+    z-index:2000;
+    display:none;
+  }
+</style>
+</head>
+
 <body>
-<body><p style="color:rgb(0, 255, 35);"><I style="background-color:Tomato;">Hey! How are you?__________</I></body>
- 
 
-  <li> H.W.  </li>
- <p>
-<li></li><li></li>
-<li> (a + b)<sup>3</sup>= a<sup>3</sup> + b<sup>3</sup> + 3a<sup>2</sup>b + 3ab<sup>2</sup>
-<li> (x<sup>2</sup> - y<sup>2</sup>) = (x + y)(x - y)
-<li>(a<sup>x </sup>) <sup> y</sup>= <sub>a</sub>x<sup> y</sup>
-<li>(a<sup>x </sup>) <sup> y</sup>= a<sup>x </sup> <sup> y</sup>
-<li>a<sub>x </sub><sup> 2</sup> b<sub>y </sub><sup> 2</sup>
-<li></li><li></li>
-</p>
- 
-<h2>&#128512;</h2>
-<body><p><B> Click HERE   </B><p></body>
+<canvas id="matrix-bg"></canvas>
 
-<p><a href="https://www.instagram.com/unexpected__s_2.0/">My Insta ID link!!</a> 
-<body><p><B> OR HERE!!   </B><p></body><a href="https://www.instagram.com/unexpected__s_2.0/"><img src="insta.png" alt="HTML tutorial" style="width:42px;height:42px;"></a></p>
+<!-- Loader Screen -->
+<div id="loader">
+  <h1>Loading... 0%</h1>
+  <div class="progress-bar"><div class="progress-fill"></div></div>
+</div>
 
-<body><p style="color:rgb(0, 155, 325);"><B> My INSTAGRAM Account QR.  </B><p></body>
-<p><img src=insta.png width="225" height="275">
+<!-- Fullscreen Matrix on link click -->
+<canvas id="link-matrix"></canvas>
 
-<body><p style="color:rgb(0, 255, 35);"><B>_____Credit: [ Himel ]____</B></body>
- 
+<!-- Main Content -->
+<div id="content">
+    <header>
+      <strong>Hey! How are you? _________</strong>
+    </header>
 
-<body><p style="color:rgb(250, 0, 0);"><B>😇ᥫ᭡| ᶦ ᵃᵐ ᴴᶤᵐᵉˡ | ༻╰‿╯🔪</B><p></body>
-<body><p><B> |.ヒメル & 히멜 & هيميل .| </B> <p> </body>
- 
-<body><p>What did u do in your Very First try man??<p></body>
+    <main>
+      <div class="section">
+        <h2>H.W.</h2>
+        <ul>
+          <li>(a + b)<sup>3</sup> = a<sup>3</sup> + b<sup>3</sup> + 3a<sup>2</sup>b + 3ab<sup>2</sup></li>
+          <li>(x<sup>2</sup> - y<sup>2</sup>) = (x + y)(x - y)</li>
+          <li>(a<sup>x</sup>)<sup>y</sup> = a<sup>xy</sup></li>
+          <li>a<sub>x</sub><sup>2</sup> b<sub>y</sub><sup>2</sup></li>
+        </ul>
+      </div>
 
-<p>
- <mark> HTML</mark> : Hyper Text Mark-up Language. 
-  </p>
-<p>  [[[[[   my Contact: 01708044940     ]]]]]. 
-<p> **** FB Contact: T H Tamzid (HimeL)****.
-<p><a href="https://www.facebook.com/m.uNxpected.40">My FB ID link!!</a> 
- </p>
+      <div class="section">
+        <h2>😄 Connect with Me</h2>
+        <p><a href="https://www.instagram.com/unexpected__s_2.0/">Instagram</a></p>
+        <p><a href="https://www.facebook.com/m.uNxpected.40">Facebook</a></p>
+        <p>or scan my QR below 👇</p>
+        <img src="insta.png" width="225" height="275" alt="Instagram QR">
+      </div>
 
+      <div class="section">
+        <h2>📸 My Images</h2>
+        <img src="image_himel.jpg" width="350" height="450" alt="Himel Picture">
+        <img src="CT-2.jpeg" width="400" height="300" alt="CT-2">
+        <img src="1-2Yearly.jpeg" width="400" height="300" alt="1-2 Yearly">
+        <img src="C_routine.jpeg" width="600" height="450" alt="Class Routine">
+      </div>
 
+      <div class="section">
+        <h2>📚 Learn More</h2>
+        <p><mark>HTML</mark> — HyperText Markup Language</p>
+        <p><a href="https://www.w3schools.com/">Visit W3Schools</a></p>
+        <p><a href="https://www.youtube.com/watch?v=DxK6YBP3GWk">Udvash Vector YT</a></p>
+      </div>
 
-<body>
-<body><p><B> My image PP size.  </B><p></body>
-<img src=image_himel.jpg width="450" height="550">
+      <div class="section">
+        <h2>⚠️ Warning</h2>
+        <p><b style="background-color:tomato; color:white; padding:5px; border-radius:4px;">Do not DO IT HERE!!</b></p>
+        
+      </div>
+    </main>
+  <div class="section">
+    <h2>📚 Just nothing</h2>
+    <p>😇ᥫ᭡ | ᶦ ᵃᵐ ᴴᶤᵐᵉˡ | ༻╰‿╯🔪</p>
+    <p>|.ヒメル & 히멜 & هيميل .|</p>
+    <p>Credit: <b>[ Himel ]</b></p>
+    <p>Contact: 01708044940</p>
+    <p>FB: T H Tamzid (HimeL)</p>
+    <p>< ="warn.png" width="100" height="130" alt="Warning"></p>
+    <h2>             MISSION PASSED<h2>
+    <s>                RESPECT +++<s>
+</div>
+<script>
+  // ---------- Matrix Background ----------
+  const canvas = document.getElementById("matrix-bg");
+  const ctx = canvas.getContext("2d");
+  let w = canvas.width = window.innerWidth;
+  let h = canvas.height = window.innerHeight;
+  const cols = Math.floor(w/20) + 1;
+  const yPos = Array(cols).fill(0);
 
-</body>
- 
- <p><a href="https://www.w3schools.com/"> Visit W3Schools.com!</a> </p>
- <p><a href="https://www.youtube.com/watch?v=DxK6YBP3GWk/"> Udvash Vector YT</a> </p>
-  
+  function matrixLoop(){
+    ctx.fillStyle = "rgba(0,0,0,0.05)";
+    ctx.fillRect(0,0,w,h);
+    ctx.fillStyle = "#0f0";
+    ctx.font = "15pt monospace";
+    for(let i=0;i<yPos.length;i++){
+      const text = String.fromCharCode(33+Math.random()*94);
+      ctx.fillText(text,i*20,yPos[i]*20);
+      if(yPos[i]*20>h && Math.random()>0.975) yPos[i]=0;
+      yPos[i]++;
+    }
+  }
+  setInterval(matrixLoop,50);
+  window.onresize = ()=>{ w=canvas.width=window.innerWidth; h=canvas.height=window.innerHeight; };
 
+  // ---------- Loader Animation ----------
+  const loader = document.getElementById("loader");
+  const fill = document.querySelector(".progress-fill");
+  const loaderText = loader.querySelector("h1");
+  const content = document.getElementById("content");
 
+  let percent = 0;
+  let loadingInterval = setInterval(()=>{
+    percent += 1.11;
+    loaderText.textContent = `L0ADING >>> ${percent.toFixed(2)}%`;
+    fill.style.width = `${percent}%`;
+    document.title = `Welcome | Loading ${percent.toFixed(2)}%`;
+    if(percent>=98.98){
+      clearInterval(loadingInterval);
+      // Matrix interlude blink
+      setTimeout(()=>matrixBlink(2,()=>{
+        loaderText.textContent=" Successfully 100%  Loaded... Welcome!!!   ..😇..   My Slave";
+        matrixBlink(4,()=>{
+          loader.style.opacity=0;
+          setTimeout(()=>{
+            loader.style.display="none";
+            content.style.opacity=1;
+            document.body.style.overflow="auto";
+          },500);
+        });
+      }),500);
+    }
+  },20);
 
+  function matrixBlink(times,callback){
+    let i=0;
+    function blinkOnce(){
+      document.body.style.background="#0f0";
+      setTimeout(()=>{document.body.style.background="#000"; i++; i<times?blinkOnce():callback();},100);
+    }
+    blinkOnce();
+  }
 
-<p><img src=CT-2.jpeg width="771" height="550"><p>
-<p><img src=1-2Yearly.jpeg width="771" height="550"><p>
-<img src=C_routine.jpeg width="1072" height="756">
-<body><p><B>   </B><p></body>
+  // ---------- Link Click Fullscreen Matrix (1.75 sec) ----------
+  document.querySelectorAll("a").forEach(a=>{
+    a.addEventListener("click", e=>{
+      e.preventDefault();
+      const url = a.href;
+      const lmCanvas = document.getElementById("link-matrix");
+      lmCanvas.width = window.innerWidth;
+      lmCanvas.height = window.innerHeight;
+      const lmCtx = lmCanvas.getContext("2d");
+      const lmCols = Math.floor(lmCanvas.width/20) +1;
+      const lmYPos = Array(lmCols).fill(0);
+      lmCanvas.style.display="block";
 
-<img src=insta.png width="100" height="130"><body><p><B>   </B><p></body>
-<body><B style="background-color:Tomato;">Do not DO IT HERE!!</B></body>
-<body><p><B>   </B><p></body>
-<img src=warn.png width="100" height="130">
-<body><h2>             MISSION PASSED<h2></body>
-<body><s>                RESPECT +++<s></body>
+      const lmInterval = setInterval(()=>{
+        lmCtx.fillStyle = "rgba(0,0,0,0.05)";
+        lmCtx.fillRect(0,0,lmCanvas.width,lmCanvas.height);
+        lmCtx.fillStyle = "#0f0";
+        lmCtx.font="15pt monospace";
+        for(let i=0;i<lmCols;i++){
+          const text = String.fromCharCode(33+Math.random()*94);
+          lmCtx.fillText(text,i*20,lmYPos[i]*20);
+          if(lmYPos[i]*20>lmCanvas.height && Math.random()>0.975) lmYPos[i]=0;
+          lmYPos[i]++;
+        }
+      },50);
+
+      setTimeout(()=>{
+        clearInterval(lmInterval);
+        lmCanvas.style.display="none";
+        window.location.href=url;
+      },1750);
+    });
+  });
+</script>
+<script>
+  // Loader animation
+  let loader = document.getElementById('loader');
+  let fill = document.querySelector('.progress-fill');
+  let percentText = document.getElementById('percent');
+  let width = 0;
+
+  let interval = setInterval(() => {
+    if(width >= 99.99){
+      clearInterval(interval);
+      loader.style.opacity = 0;
+      setTimeout(() => {
+        loader.style.display = 'none';
+        document.body.style.overflow = 'auto';
+        document.title = "Himels Void"; // change title automatically
+      }, 500);
+    } else {
+      width += 0.5; // controls speed
+      if(width > 99.99) width = 99.99;
+      fill.style.width = width + '%';
+      percentText.textContent = width.toFixed(2) + '%';
+    }
+  }, 20); // smaller number = faster
+</script>
 </body>
 </html>
-
-
